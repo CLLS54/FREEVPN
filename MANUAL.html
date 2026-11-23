@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="es" style="color-scheme: dark;">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FREEVPN — Manual de uso</title>
+<style>
+  :root {
+    --bg: #0b0f14;
+    --card: #141a22;
+    --fg: #e6edf3;
+    --accent: #58a6ff;
+    --border: #26313f;
+    --code: #070b10;
+    --success: #3fb950;
+    --warning: #d29922;
+    --danger: #f85149;
+    --muted: #8b949e;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { background: var(--bg); }
+
+  body {
+    margin: 0;
+    padding: 0 20px 60px;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    font-size: 16px;
+    line-height: 1.65;
+  }
+
+  .wrap { max-width: 1000px; margin: 0 auto; }
+
+  header.hero {
+    padding: 40px 0 24px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 28px;
+  }
+
+  header.hero h1 {
+    margin: 0 0 8px;
+    font-size: 2.1rem;
+    letter-spacing: -0.5px;
+  }
+
+  header.hero h1 span { color: var(--accent); }
+
+  .sub { color: var(--muted); margin: 0 0 16px; }
+
+  .badges { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    height: 26px;
+    font-size: 0.78rem;
+    padding: 0 12px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--fg);
+    line-height: 1;
+  }
+  .badge.ok { border-color: var(--success); color: var(--success); }
+  .badge.warn { border-color: var(--warning); color: var(--warning); }
+  .badge.info { border-color: var(--accent); color: var(--accent); }
+
+  nav.toc {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 24px;
+    margin-bottom: 32px;
+  }
+  nav.toc h2 { margin: 0 0 10px; font-size: 1rem; color: var(--accent); }
+  nav.toc ol { margin: 0; padding-left: 20px; columns: 2; column-gap: 32px; }
+  nav.toc li { margin: 3px 0; }
+
+  section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 26px 28px;
+    margin-bottom: 24px;
+  }
+
+  h2 {
+    margin: 0 0 14px;
+    font-size: 1.35rem;
+    color: var(--fg);
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  h3 { margin: 24px 0 8px; font-size: 1.05rem; color: var(--accent); }
+
+  p { margin: 10px 0; }
+
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  code {
+    font-family: "Cascadia Mono", Consolas, "Courier New", monospace;
+    background: var(--code);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-size: 0.88em;
+    color: #ffd7a8;
+  }
+
+  pre {
+    background: var(--code);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 8px;
+    padding: 16px;
+    overflow-x: auto;
+    font-family: "Cascadia Mono", Consolas, "Courier New", monospace;
+    font-size: 0.86rem;
+    line-height: 1.55;
+    color: var(--fg);
+  }
+  pre code { background: none; border: 0; padding: 0; color: inherit; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 14px 0;
+    font-size: 0.92rem;
+  }
+  th, td {
+    text-align: left;
+    padding: 9px 12px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  th { background: #10161d; color: var(--accent); font-weight: 600; }
+  tr:last-child td { border-bottom: 0; }
+  td code { white-space: nowrap; }
+
+  .note, .tip, .warn, .danger {
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin: 16px 0;
+    border: 1px solid var(--border);
+    background: #10161d;
+  }
+  .note { border-left: 3px solid var(--accent); }
+  .tip { border-left: 3px solid var(--success); }
+  .warn { border-left: 3px solid var(--warning); }
+  .danger { border-left: 3px solid var(--danger); }
+  .note strong, .tip strong, .warn strong, .danger strong { display: block; margin-bottom: 4px; }
+
+  ol.steps { padding-left: 22px; }
+  ol.steps > li { margin: 12px 0; }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; }
+  .grid .item {
+    background: #10161d;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+  .grid .item h4 { margin: 0 0 6px; font-size: 0.95rem; color: var(--accent); }
+  .grid .item p { margin: 0; font-size: 0.9rem; color: var(--muted); }
+
+  .flow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    margin: 18px 0;
+  }
+  .flow .node {
+    background: #10161d;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 0.85rem;
+  }
+  .flow .arrow { color: var(--accent); font-weight: bold; }
+
+  footer {
+    color: var(--muted);
+    font-size: 0.85rem;
+    text-align: center;
+    padding-top: 10px;
+  }
+
+  .anchor { scroll-margin-top: 20px; }
+
+  @media (max-width: 700px) {
+    nav.toc ol { columns: 1; }
+    section { padding: 20px 18px; }
+  }
+
+  /* Impresion: fondo blanco y texto negro para no gastar tinta */
+  @media print {
+    html, body { background: #ffffff !important; color: #000000 !important; }
+    header.hero h1 span, h2, h3, th, a, .grid .item h4 { color: #000000 !important; }
+    section, nav.toc, pre, .grid .item, .note, .tip, .warn, .danger {
+      background: #ffffff !important;
+      border-color: #999999 !important;
+      color: #000000 !important;
+      box-shadow: none !important;
+    }
+    code { background: #f2f2f2 !important; color: #000000 !important; border-color: #cccccc !important; }
+    pre { background: #f7f7f7 !important; color: #000000 !important; }
+    pre code { background: none !important; }
+    .sub, .badge { color: #333333 !important; }
+    section { page-break-inside: avoid; }
+    a { text-decoration: underline; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <h1>FREE<span>VPN</span></h1>
+    <p class="sub">Cliente SoftEther / VPN Gate automatizado — manual de uso y referencia técnica</p>
+    <div class="badges">
+      <span class="badge info">Versión 1.0</span>
+      <span class="badge">Windows 10 / 11 x64</span>
+      <span class="badge ok">Rust</span>
+      <span class="badge ok">79 tests</span>
+      <span class="badge warn">Servidores de terceros</span>
+    </div>
+  </header>
+
+  <nav class="toc">
+    <h2>Contenido</h2>
+    <ol>
+      <li><a href="#que-es">Qué es FREEVPN</a></li>
+      <li><a href="#carpeta">Contenido de la carpeta</a></li>
+      <li><a href="#requisitos">Requisitos</a></li>
+      <li><a href="#instalacion">Instalación</a></li>
+      <li><a href="#menu">Uso: menú interactivo</a></li>
+      <li><a href="#cli">Uso: línea de comandos</a></li>
+      <li><a href="#como-funciona">Cómo funciona por dentro</a></li>
+      <li><a href="#configuracion">Configuración</a></li>
+      <li><a href="#problemas">Solución de problemas</a></li>
+      <li><a href="#evidencia">Evidencia de funcionamiento</a></li>
+      <li><a href="#limitaciones">Limitaciones y aviso</a></li>
+      <li><a href="#seguridad">Seguridad y auditoría</a></li>
+      <li><a href="#apendice">Apéndice: rutas y vpncmd</a></li>
+    </ol>
+  </nav>
+
+  <section id="que-es" class="anchor">
+    <h2>1. Qué es FREEVPN</h2>
+    <p>
+      FREEVPN descubre servidores públicos gratuitos de <strong>VPN Gate</strong>
+      (proyecto de la Universidad de Tsukuba), elige el más adecuado según ping,
+      velocidad y política de países, configura el cliente oficial
+      <strong>SoftEther</strong> y establece la conexión sin intervención manual.
+    </p>
+    <div class="grid">
+      <div class="item">
+        <h4>Descubrimiento automático</h4>
+        <p>Descarga la lista pública de relays y la cachea 15 minutos.</p>
+      </div>
+      <div class="item">
+        <h4>Puerto real por servidor</h4>
+        <p>Lee el puerto que cada relay publica en su configuración OpenVPN.</p>
+      </div>
+      <div class="item">
+        <h4>Sonda TCP previa</h4>
+        <p>Descarta relays caídos antes de intentar la sesión.</p>
+      </div>
+      <div class="item">
+        <h4>Sin configuración manual</h4>
+        <p>Crea adaptador y cuenta, conecta y verifica el estado.</p>
+      </div>
+      <div class="item">
+        <h4>Modo supervisado</h4>
+        <p><code>rotate</code> vigila la conexión y cambia de servidor si cae.</p>
+      </div>
+      <div class="item">
+        <h4>Doble clic</h4>
+        <p>Sin argumentos abre un menú que no se cierra solo.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="carpeta" class="anchor">
+    <h2>2. Contenido de la carpeta</h2>
+    <table>
+      <thead><tr><th>Archivo</th><th>Para qué sirve</th></tr></thead>
+      <tbody>
+        <tr><td><code>FREEVPN.bat</code></td><td>Lanzador principal. Eleva a administrador y abre el menú.</td></tr>
+        <tr><td><code>Instalar-SoftEther.bat</code></td><td>Instala el cliente SoftEther y crea el adaptador (solo la primera vez).</td></tr>
+        <tr><td><code>autovpn.exe</code></td><td>El programa. No necesita instalación propia.</td></tr>
+        <tr><td><code>MANUAL.html</code></td><td>Este documento.</td></tr>
+        <tr><td><code>LEEME.txt</code></td><td>Guía rápida de 3 pasos.</td></tr>
+        <tr><td><code>config.ejemplo.toml</code></td><td>Configuración comentada lista para copiar.</td></tr>
+        <tr><td><code>instaladores\</code></td><td>Instalador oficial de SoftEther 5.02.5187 (driver WHQL).</td></tr>
+      </tbody>
+    </table>
+    <p>
+      El programa guarda su estado en <code>%APPDATA%\AutoVPN\</code>
+      (<code>config.toml</code> y <code>servers.csv</code>). La carpeta FREEVPN
+      puede moverse o copiarse a un pendrive: el ejecutable es autónomo.
+    </p>
+  </section>
+
+  <section id="requisitos" class="anchor">
+    <h2>3. Requisitos</h2>
+    <ul>
+      <li>Windows 10 u 11 de 64 bits.</li>
+      <li>Permisos de administrador (instalar el driver del adaptador virtual).</li>
+      <li>Conexión a Internet. Ningún puerto de entrada debe estar abierto.</li>
+      <li>~200 MB de disco (cliente SoftEther + logs).</li>
+    </ul>
+    <div class="note">
+      <strong>Nota</strong>
+      FREEVPN no incluye ni modifica el cliente SoftEther: usa el oficial y lo
+      controla con <code>vpncmd</code>, la utilidad de línea de comandos del
+      propio fabricante.
+    </div>
+  </section>
+
+  <section id="instalacion" class="anchor">
+    <h2>4. Instalación</h2>
+    <ol class="steps">
+      <li>
+        <strong>Doble clic en <code>Instalar-SoftEther.bat</code></strong><br>
+        Acepta el aviso de administrador de Windows. El proceso hace tres cosas:
+        <pre><code>[1/3] instalado en C:\Program Files\SoftEther VPN Client
+[2/3] sin motor estable (--engine &lt;exe v4.44&gt;): los relays VPN Gate
+[3/3] adaptador virtual 'VPN' creado</code></pre>
+        La fase 1 instala el cliente, la 2 es opcional (motor alternativo) y la 3
+        crea el adaptador de red virtual con el driver firmado WHQL, lo que evita
+        el clásico <em>Error 31</em> en Windows 11.
+      </li>
+      <li>
+        <strong>Comprueba el entorno</strong><br>
+        <pre><code>autovpn.exe doctor</code></pre>
+        Debe mostrar <code>permisos: administrador</code>, el servicio
+        <code>RUNNING</code> y un recuento de servidores.
+      </li>
+      <li>
+        <strong>Abre el menú</strong><br>
+        Doble clic en <code>FREEVPN.bat</code> → opción <code>3</code>.
+      </li>
+    </ol>
+    <div class="tip">
+      <strong>Si ya tenías SoftEther instalado</strong>
+      Ejecutar <code>Instalar-SoftEther.bat</code> otra vez es seguro: detecta lo
+      existente y solo crea lo que falte.
+    </div>
+  </section>
+
+  <section id="menu" class="anchor">
+    <h2>5. Uso: menú interactivo</h2>
+    <p>Sin argumentos, el programa abre un menú que permanece abierto hasta que salgas:</p>
+    <table>
+      <thead><tr><th>Opción</th><th>Acción</th><th>Qué hace</th></tr></thead>
+      <tbody>
+        <tr><td><code>1</code></td><td>doctor</td><td>Permisos, cliente, servicio, <strong>integridad SHA-256</strong>, API y rutas.</td></tr>
+        <tr><td><code>2</code></td><td>list</td><td>Los 20 servidores mejor valorados.</td></tr>
+        <tr><td><code>3</code></td><td>connect</td><td>Sondea, elige y conecta. Es el comando habitual.</td></tr>
+        <tr><td><code>4</code></td><td>status</td><td>Estado actual (<code>Connected</code>, <code>Connecting</code>…).</td></tr>
+        <tr><td><code>5</code></td><td>disconnect</td><td>Cierra la sesión.</td></tr>
+        <tr><td><code>6</code></td><td>clean</td><td>Borra cuenta y adaptador. Requiere repetir la instalación.</td></tr>
+        <tr><td><code>q</code></td><td>salir</td><td>Cierra el programa.</td></tr>
+      </tbody>
+    </table>
+    <h3>Salida típica de una conexión correcta</h3>
+    <pre><code>sondeando servidores (TCP, 700 ms por destino)...
+5 servidor(es) responden; se probaran en orden de ranking
+[1/5] opengw (RO, 687.9 Mbps, 3 ms) -&gt; 217.138.212.62:443
+CONECTADO a opengw (RO, 687.9 Mbps, 3 ms) -&gt; 217.138.212.62:443 (hub VPNGATE)
+adaptador 'VPN' activo; el trafico sale por el tunel.</code></pre>
+    <div class="warn">
+      <strong>Sobre el aviso "Connect Error" de SoftEther</strong>
+      Es una ventana del cliente oficial, no de FREEVPN. Aparecía cuando se
+      intentaba un servidor muerto. Ahora la sonda TCP lo evita; si aún sale,
+      marca <em>"Hide this window when connecting next time"</em> y pulsa
+      <em>Cancel Connection</em>.
+    </div>
+  </section>
+
+  <section id="cli" class="anchor">
+    <h2>6. Uso: línea de comandos</h2>
+    <table>
+      <thead><tr><th>Comando</th><th>Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>autovpn.exe connect</code></td><td>Sondea y conecta al mejor servidor.</td></tr>
+        <tr><td><code>autovpn.exe connect --attempts 8</code></td><td>Prueba hasta 8 servidores vivos.</td></tr>
+        <tr><td><code>autovpn.exe connect --country JP</code></td><td>Restringe la selección a Japón.</td></tr>
+        <tr><td><code>autovpn.exe connect --refresh</code></td><td>Ignora la caché y consulta la API.</td></tr>
+        <tr><td><code>autovpn.exe connect --host 59.15.245.216</code></td><td>Servidor concreto (resuelve su puerto real desde la caché).</td></tr>
+        <tr><td><code>autovpn.exe status</code></td><td>Estado de la sesión.</td></tr>
+        <tr><td><code>autovpn.exe disconnect</code></td><td>Desconecta.</td></tr>
+        <tr><td><code>autovpn.exe list --limit 50 --country KR</code></td><td>Lista filtrada.</td></tr>
+        <tr><td><code>autovpn.exe rotate --max-cycles 0</code></td><td>Supervisión continua con rotación automática.</td></tr>
+        <tr><td><code>autovpn.exe doctor</code></td><td>Diagnóstico del entorno.</td></tr>
+        <tr><td><code>autovpn.exe setup --installer &lt;exe&gt;</code></td><td>Instalación automatizada.</td></tr>
+        <tr><td><code>autovpn.exe clean</code></td><td>Elimina cuenta y adaptador.</td></tr>
+      </tbody>
+    </table>
+    <p>Opciones globales: <code>--config &lt;archivo&gt;</code> y <code>-v</code> (trazas).</p>
+  </section>
+
+  <section id="como-funciona" class="anchor">
+    <h2>7. Cómo funciona por dentro</h2>
+    <div class="flow">
+      <span class="node">API VPN Gate</span><span class="arrow">→</span>
+      <span class="node">Parser CSV</span><span class="arrow">→</span>
+      <span class="node">Ranking por política</span><span class="arrow">→</span>
+      <span class="node">Puerto real (OpenVPN)</span><span class="arrow">→</span>
+      <span class="node">Sonda TCP</span><span class="arrow">→</span>
+      <span class="node">vpncmd: cuenta y sesión</span><span class="arrow">→</span>
+      <span class="node">Verificación de estado</span>
+    </div>
+
+    <h3>7.1 Descubrimiento</h3>
+    <p>
+      Se consulta <code>https://www.vpngate.net/api/iphone/</code>, un CSV con 15
+      columnas por servidor. La respuesta se cachea en
+      <code>%APPDATA%\AutoVPN\servers.csv</code> durante <code>cache_ttl_secs</code>.
+    </p>
+
+    <h3>7.2 Ranking</h3>
+    <p>
+      El selector puntúa cada servidor combinando ping, velocidad anunciada y
+      número de sesiones, y descarta los que incumplen la política configurada
+      (<code>max_ping_ms</code>, <code>min_speed_mbps</code>, países…).
+    </p>
+
+    <h3>7.3 El puerto real (clave del funcionamiento)</h3>
+    <p>
+      Cada relay escucha en <strong>un puerto distinto</strong>. Ese dato no está
+      en una columna aparte: viene dentro de la configuración OpenVPN en base64
+      de la última columna.
+    </p>
+    <pre><code>client
+dev tun
+remote 121.85.62.237 1969
+tls-client</code></pre>
+    <p>
+      FREEVPN decodifica ese bloque y extrae el número de la línea
+      <code>remote</code>. Si el dato falta, usa el puerto de reserva de la
+      configuración (<code>port</code>, 443 por defecto).
+    </p>
+    <div class="danger">
+      <strong>Por qué esto importa</strong>
+      Conectar siempre al 443 cuando el servidor escucha en 1969 produce un
+      rechazo TCP inmediato: <code>Error Code 1 — Connection to the server failed</code>.
+      Es el error más frecuente y no tiene nada que ver con la instalación.
+    </div>
+
+    <h3>7.4 Sonda TCP</h3>
+    <p>
+      Antes de tocar SoftEther se abre un socket TCP contra los candidatos (en
+      tandas de 8, 700 ms por destino, hasta 40 destinos). Solo los que responden
+      pasan a la fase de conexión. Esto elimina el bucle de reintentos del cliente.
+    </p>
+
+    <h3>7.5 Sesión SoftEther</h3>
+    <p>Todo se hace con <code>vpncmd</code>, el CLI oficial:</p>
+    <pre><code>NicCreate VPN
+AccountCreate AutoVPN /server:&lt;ip&gt;:&lt;puerto&gt; /hub:VPNGATE /username:vpn /nic:VPN
+AccountPasswordSet AutoVPN /password:vpn /type:standard
+AccountConnect AutoVPN</code></pre>
+    <p>
+      Después se consulta <code>AccountStatusGet</code> en bucle hasta leer
+      <code>Session Status | Connection Completed (Session Established)</code>.
+    </p>
+    <div class="warn">
+      <strong>El hub correcto es VPNGATE</strong>
+      Con <code>/hub:VPN</code> el servidor responde "hub inexistente" y la
+      cuenta queda en <code>Retrying</code> indefinidamente.
+    </div>
+
+    <h3>7.6 Asignación de IP y ruta</h3>
+    <p>
+      La IP del adaptador la entrega el servidor por DHCP a través del enlace
+      virtual (por ejemplo <code>10.211.1.199/16</code>, puerta
+      <code>10.211.254.254</code>). Windows coloca esa ruta por defecto con
+      métrica preferente, de modo que el tráfico sale por el túnel.
+    </p>
+
+    <h3>7.7 Arquitectura del código</h3>
+    <table>
+      <thead><tr><th>Módulo</th><th>Responsabilidad</th></tr></thead>
+      <tbody>
+        <tr><td><code>vpngate/api.rs</code></td><td>HTTP + caché de la lista.</td></tr>
+        <tr><td><code>vpngate/csv.rs</code></td><td>Parseo puro del formato publicado.</td></tr>
+        <tr><td><code>vpngate/selector.rs</code></td><td>Política y ranking.</td></tr>
+        <tr><td><code>vpngate/openvpn.rs</code></td><td>Base64 + extracción del puerto real.</td></tr>
+        <tr><td><code>vpngate/probe.rs</code></td><td>Sonda TCP previa.</td></tr>
+        <tr><td><code>softether/account.rs</code></td><td>Adaptador, cuenta, conexión y estado.</td></tr>
+        <tr><td><code>softether/installer.rs</code></td><td>Instalación automatizada.</td></tr>
+        <tr><td><code>softether/locator.rs</code></td><td>Detección de la instalación y del servicio.</td></tr>
+        <tr><td><code>daemon.rs</code></td><td>Supervisión y rotación.</td></tr>
+        <tr><td><code>interactive.rs</code></td><td>Menú de doble clic.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="configuracion" class="anchor">
+    <h2>8. Configuración</h2>
+    <p>Archivo: <code>%APPDATA%\AutoVPN\config.toml</code> (se crea solo).</p>
+    <table>
+      <thead><tr><th>Clave</th><th>Por defecto</th><th>Significado</th></tr></thead>
+      <tbody>
+        <tr><td><code>nic_name</code></td><td><code>"VPN"</code></td><td>Nombre del adaptador. <strong>Debe empezar por VPN.</strong></td></tr>
+        <tr><td><code>account_name</code></td><td><code>"AutoVPN"</code></td><td>Nombre de la conexión en SoftEther.</td></tr>
+        <tr><td><code>hub</code></td><td><code>"VPNGATE"</code></td><td>Hub virtual del servidor. No cambiar.</td></tr>
+        <tr><td><code>port</code></td><td><code>443</code></td><td>Puerto de reserva si el servidor no publica el suyo.</td></tr>
+        <tr><td><code>username</code> / <code>password</code></td><td><code>"vpn"</code></td><td>Credenciales públicas de VPN Gate.</td></tr>
+        <tr><td><code>connect_timeout_secs</code></td><td><code>45</code></td><td>Espera máxima para la sesión.</td></tr>
+        <tr><td><code>probe_timeout_ms</code></td><td><code>700</code></td><td>Plazo de la sonda TCP por destino.</td></tr>
+        <tr><td><code>probe_max</code></td><td><code>40</code></td><td>Servidores a sondear como máximo.</td></tr>
+        <tr><td><code>cache_ttl_secs</code></td><td><code>900</code></td><td>Vigencia de la caché de servidores.</td></tr>
+        <tr><td><code>health_interval_secs</code></td><td><code>20</code></td><td>Comprobación de salud en <code>rotate</code>.</td></tr>
+        <tr><td><code>[policy] max_ping_ms</code></td><td><code>500</code></td><td>Ping máximo aceptado.</td></tr>
+        <tr><td><code>[policy] min_speed_mbps</code></td><td><code>1.0</code></td><td>Velocidad mínima anunciada.</td></tr>
+        <tr><td><code>[policy] countries</code></td><td><code>[]</code></td><td>Países permitidos (vacío = todos).</td></tr>
+        <tr><td><code>[policy] exclude_countries</code></td><td><code>[]</code></td><td>Países excluidos.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="problemas" class="anchor">
+    <h2>9. Solución de problemas</h2>
+    <table>
+      <thead><tr><th>Síntoma</th><th>Causa</th><th>Solución</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><em>Error Code 1 — Connection to the server failed</em></td>
+          <td>El relay está caído o el puerto no es el correcto.</td>
+          <td>Vuelve a pulsar <code>3</code>: la sonda elige otro servidor.</td>
+        </tr>
+        <tr>
+          <td>Estado <code>Retrying</code> permanente</td>
+          <td>Hub incorrecto (<code>VPN</code> en vez de <code>VPNGATE</code>).</td>
+          <td>Corrige <code>hub</code> en <code>config.toml</code> y reconecta.</td>
+        </tr>
+        <tr>
+          <td><em>Error 31</em> al crear el adaptador</td>
+          <td>Driver sin firma WHQL o adaptador borrado con <code>clean</code>.</td>
+          <td>Ejecuta <code>Instalar-SoftEther.bat</code> de nuevo.</td>
+        </tr>
+        <tr>
+          <td><em>Error 42 — Cannot find the Virtual Network Adapter</em></td>
+          <td>Se ejecutó <code>clean</code> y la cuenta apunta a un adaptador inexistente.</td>
+          <td>Reinstala (paso 1) y vuelve a conectar.</td>
+        </tr>
+        <tr>
+          <td>Se abre una ventana y se cierra al instante</td>
+          <td>Se lanzó el <code>.exe</code> desde un acceso mal configurado.</td>
+          <td>Usa <code>FREEVPN.bat</code>; el menú espera tus órdenes.</td>
+        </tr>
+        <tr>
+          <td>No aparece SoftEther en el menú Inicio</td>
+          <td>Instalación automatizada sin accesos directos.</td>
+          <td>Ejecuta <code>Instalar-SoftEther.bat</code>, que los registra.</td>
+        </tr>
+        <tr>
+          <td><code>status</code> dice <code>Connected</code> pero la IP no cambia</td>
+          <td>El relay no asignó IP o el DHCP aún no terminó.</td>
+          <td>Espera unos segundos y revisa <code>ipconfig</code>.</td>
+        </tr>
+        <tr>
+          <td>Todo falla en una red concreta</td>
+          <td>Filtrado del proveedor sobre el protocolo.</td>
+          <td>Prueba otra red u otro país (<code>--country</code>).</td>
+        </tr>
+      </tbody>
+    </table>
+    <h3>Diagnóstico rápido</h3>
+    <pre><code>autovpn.exe doctor
+autovpn.exe list --limit 5
+vpncmd.exe /CLIENT localhost /CMD AccountStatusGet AutoVPN</code></pre>
+  </section>
+
+  <section id="evidencia" class="anchor">
+    <h2>10. Evidencia de funcionamiento</h2>
+    <p>Salidas reales de una sesión verificada en Windows 11:</p>
+    <pre><code>&gt; autovpn.exe status
+estado: Connected
+adaptador: VPN
+
+&gt; vpncmd /CLIENT localhost /CMD AccountStatusGet AutoVPN
+Session Status                            |Connection Completed (Session Established)
+Current Session has been Established since|2026-11-17 (Tue) 14:00:06
+Session Name                              |SID-VPN-135394-CA12741A3C
+
+&gt; tracert 1.1.1.1
+  1   271 ms  public-gw.vpngate.net [10.211.254.254]
+
+&gt; ipinfo.io
+  ip      : 187.15.135.101
+  city    : Tokyo
+  country : JP
+  org     : AS137409 GSL Networks Pty LTD</code></pre>
+  </section>
+
+  <section id="limitaciones" class="anchor">
+    <h2>11. Limitaciones y aviso</h2>
+    <ul>
+      <li>Los relays son de voluntarios: <strong>aparecen y desaparecen</strong>. La IP de salida y el país pueden variar entre conexiones.</li>
+      <li>La velocidad depende del relay y de tu ruta hasta él.</li>
+      <li>El operador del relay <em>puede</em> inspeccionar el tráfico en el punto de salida: el cifrado protege el tramo hasta el relay, no más allá.</li>
+      <li>Algunos proveedores filtran el protocolo; no siempre hay solución desde el cliente.</li>
+      <li>No hay garantía de anonimato: es una VPN de privacidad básica, no un sistema antiforense.</li>
+    </ul>
+    <div class="danger">
+      <strong>Uso responsable</strong>
+      No uses estos servidores para actividades ilícitas ni para datos
+      sensibles (banca, trabajo confidencial). Verifica siempre la legislación
+      de tu país y las condiciones de VPN Gate.
+    </div>
+  </section>
+
+  <section id="seguridad" class="anchor">
+    <h2>12. Seguridad y auditoría</h2>
+    <p>
+      En noviembre de 2026 se realizó una auditoría interna al código y se
+      detectaron tres hallazgos. Los dos primeros están corregidos y verificados;
+      el tercero se documenta como informativo.
+    </p>
+
+    <table>
+      <thead><tr><th>ID</th><th>Hallazgo</th><th>Estado</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><code>SEC-01</code></td>
+          <td>Staging en <code>%TEMP%</code> global y TOCTOU: un usuario local podía plantar <code>VPN_*</code> con binarios manipulados antes de que un administrador ejecutara <code>setup</code>.</td>
+          <td><strong>Corregido</strong></td>
+        </tr>
+        <tr>
+          <td><code>SEC-02</code></td>
+          <td>Los binarios extraídos se copiaban a <em>Program Files</em> sin verificar su integridad.</td>
+          <td><strong>Corregido</strong></td>
+        </tr>
+        <tr>
+          <td><code>SEC-03</code></td>
+          <td><code>vpn</code>/<code>vpn</code> en el archivo de configuración.</td>
+          <td>Informativo (no es un secreto)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>12.1 SEC-01 — staging privado con ACL</h3>
+    <p>
+      El asistente oficial de SoftEther no admite instalación desatendida: al
+      arrancar extrae su carga útil en el directorio temporal del sistema. La
+      versión anterior lo esperaba en el <code>%TEMP%</code> del usuario, que
+      cualquier proceso de esa cuenta puede escribir.
+    </p>
+    <p>Ahora la extracción ocurre en una carpeta privada y efímera:</p>
+    <pre><code>%ProgramData%\AutoVPN\staging\run-&lt;pid&gt;-&lt;nonce&gt;\VPN_xxxx</code></pre>
+    <ul>
+      <li>Se lanza el instalador con <code>TEMP</code>, <code>TMP</code> y <code>TMPDIR</code> apuntando a esa carpeta, de modo que el hijo extrae ahí y no en el perfil del usuario.</li>
+      <li>La DACL se reescribe con <code>icacls /inheritance:r</code>: solo <strong>Administradores</strong> y <strong>SYSTEM</strong> tienen acceso. Verificado en la máquina de prueba: la ACL efectiva no conserva ninguna entrada heredada.</li>
+      <li>Se rechazan puntos de reanálisis (junction/symlink), que permitirían redirigir la extracción a otra ruta.</li>
+      <li>Solo se aceptan carpetas creadas <strong>después</strong> de lanzar el proceso hijo (con 2 s de margen por redondeo del sistema de archivos). Una carpeta plantada antes queda descartada.</li>
+      <li>La carpeta se elimina al terminar, con éxito o con error.</li>
+    </ul>
+    <div class="tip">
+      <strong>Verificación realizada</strong>
+      Se ejecutó el instalador oficial real con el entorno redirigido: la
+      extracción apareció en <code>…\staging\run-test-…\VPN_19FD</code>
+      (<code>vpnclient.exe</code>, <code>vpncmd.exe</code>, <code>vpncmgr.exe</code>,
+      <code>hamcore.se2</code>, <code>vpnsetup.exe</code>) y el
+      <code>%TEMP%</code> del usuario quedó sin residuos. La instalación viva
+      (<code>C:\Program Files\SoftEther VPN Client</code>) no cambió de fecha.
+    </div>
+
+    <h3>12.2 SEC-02 — integridad SHA-256 con digests fijados</h3>
+    <p>
+      Los binarios oficiales de SoftEther <strong>no llevan firma
+      Authenticode</strong> (comprobado con <code>Get-AuthenticodeSignature</code>:
+      <code>NotSigned</code> en <code>vpnclient.exe</code>, <code>vpncmd.exe</code>,
+      <code>vpncmgr.exe</code> y en el propio instalador). Por eso no se puede
+      validar la firma: se usan digests SHA-256 fijados por versión.
+    </p>
+    <table>
+      <thead><tr><th>Archivo (v5.02.5187)</th><th>SHA-256</th></tr></thead>
+      <tbody>
+        <tr><td><code>vpnclient.exe</code></td><td><code>604af5d6…d710f31d</code></td></tr>
+        <tr><td><code>vpncmd.exe</code></td><td><code>4877d25f…c14ef04984</code></td></tr>
+        <tr><td><code>vpncmgr.exe</code></td><td><code>03e79feb…542ac719af</code></td></tr>
+        <tr><td><code>hamcore.se2</code></td><td><code>5eb9e386…62b1a0e03f</code></td></tr>
+      </tbody>
+    </table>
+    <p>
+      El SHA-256 está implementado en el propio proyecto (sin dependencias
+      externas) y validado con los vectores de la FIPS 180-4. Tras la extracción:
+    </p>
+    <ul>
+      <li>Se calcula el hash de cada <code>.exe</code>, <code>.dll</code> y <code>.se2</code>.</li>
+      <li>Si los cuatro digests coinciden con el perfil conocido, la carga útil se marca como <strong>verificada</strong>.</li>
+      <li>Si no coinciden (versión más nueva del instalador u otra build), se avisa y los hashes quedan registrados en el log: no se bloquea una instalación legítima, pero queda constancia auditable.</li>
+      <li>Los archivos de menos de 64 KiB se reportan como sospechosos (extracción truncada o vacía).</li>
+    </ul>
+    <p>La comprobación se puede repetir en cualquier momento sobre la instalación existente:</p>
+    <pre><code>&gt; autovpn.exe doctor
+cliente: C:\Program Files\SoftEther VPN Client
+servicio SEVPNCLIENTDEV: RUNNING
+integridad: carga util oficial verificada (SHA-256, version 5.02.5187)</code></pre>
+    <div class="warn">
+      <strong>Límite conocido</strong>
+      Los digests están fijados para la versión <strong>5.02.5187</strong>. Si se
+      usa otro instalador, el programa dirá «versión no fijada» y mostrará los
+      hashes para revisarlos a mano. Añadir un perfil nuevo exige medir los
+      binarios y registrarlos en <code>softether/integrity.rs</code>.
+    </div>
+
+    <h3>12.3 SEC-03 — credenciales <code>vpn</code>/<code>vpn</code></h3>
+    <p>
+      No es una vulnerabilidad: <code>vpn</code>/<code>vpn</code> son las
+      credenciales <strong>públicas</strong> que VPN Gate documenta para sus
+      relays voluntarios. Cualquier cliente las usa y no dan acceso a nada
+      privado. Se mantienen tal cual, documentadas aquí y en
+      <code>config.ejemplo.toml</code>.
+    </p>
+
+    <h3>12.4 Qué sigue fuera del alcance</h3>
+    <ul>
+      <li>Un administrador local comprometido ya controla la máquina: estas medidas protegen contra usuarios <em>sin</em> privilegios, no contra un admin malicioso.</li>
+      <li>La superficie del propio cliente SoftEther (driver y servicio) es responsabilidad del fabricante; aquí solo se valida su integridad al instalarlo.</li>
+      <li>Los relays VPN Gate son de terceros: la confidencialidad depende del operador de cada relay, no del cliente.</li>
+      <li>
+        El <strong>cliente oficial</strong>, al conectar, crea su propio
+        <code>%TEMP%\VPN_*</code> con DLL auxiliares (comportamiento del
+        fabricante, no del instalador). FREEVPN ya no lee nunca de ahí: la
+        detección de la carga útil solo mira el staging privado, así que esa
+        carpeta no puede influir en lo que se copia a <em>Program Files</em>.
+      </li>
+    </ul>
+  </section>
+
+  <section id="apendice" class="anchor">
+    <h2>13. Apéndice: rutas y vpncmd</h2>
+    <table>
+      <thead><tr><th>Elemento</th><th>Ruta / valor</th></tr></thead>
+      <tbody>
+        <tr><td>Cliente SoftEther</td><td><code>C:\Program Files\SoftEther VPN Client\</code></td></tr>
+        <tr><td>CLI oficial</td><td><code>C:\Program Files\SoftEther VPN Client\vpncmd.exe</code></td></tr>
+        <tr><td>Configuración</td><td><code>%APPDATA%\AutoVPN\config.toml</code></td></tr>
+        <tr><td>Caché</td><td><code>%APPDATA%\AutoVPN\servers.csv</code></td></tr>
+        <tr><td>Staging de instalación</td><td><code>%ProgramData%\AutoVPN\staging\</code> (efímero, solo Administradores y SYSTEM)</td></tr>
+        <tr><td>Servicio (v5)</td><td><code>SEVPNCLIENTDEV</code></td></tr>
+        <tr><td>Servicio (v4)</td><td><code>SEVPNCLIENT</code></td></tr>
+        <tr><td>Adaptador</td><td><code>VPN Client Adapter - VPN</code></td></tr>
+      </tbody>
+    </table>
+    <h3>Comandos vpncmd útiles</h3>
+    <pre><code>vpncmd /CLIENT localhost /CMD NicList
+vpncmd /CLIENT localhost /CMD AccountList
+vpncmd /CLIENT localhost /CMD AccountStatusGet AutoVPN
+vpncmd /CLIENT localhost /CMD AccountDisconnect AutoVPN
+vpncmd /CLIENT localhost /CMD AccountDelete AutoVPN</code></pre>
+    <p>La GUI del cliente está en el menú Inicio como <em>SoftEther VPN Client</em> (<code>vpncmgr.exe</code>).</p>
+  </section>
+
+  <footer>
+    FREEVPN 1.0 · Manual actualizado el 18 de noviembre de 2026 ·
+    Rust + cliente oficial SoftEther · Modo oscuro por defecto, imprimible en claro
+  </footer>
+
+</div>
+</body>
+</html>

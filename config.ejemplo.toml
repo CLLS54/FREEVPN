@@ -1,0 +1,58 @@
+# ============================================================
+#  FREEVPN / autovpn - configuracion de ejemplo
+#
+#  Copia este archivo a:
+#    %APPDATA%\AutoVPN\config.toml
+#  (la primera ejecucion ya crea uno con estos valores)
+# ============================================================
+
+# --- Cliente SoftEther -------------------------------------
+# Directorio del cliente (se autodetecta si se omite).
+# install_dir = "C:\\Program Files\\SoftEther VPN Client"
+
+# Instalador oficial usado por `autovpn setup`.
+# installer_path = "C:\\ruta\\softether-vpnclient-5.2.5187.x64.exe"
+
+# Motor estable v4.44 opcional (solo para el flujo hibrido).
+# engine_installer_path = "C:\\ruta\\softether-vpnclient-v4.44-9807.exe"
+
+# --- Identidad de la conexion ------------------------------
+# El adaptador DEBE empezar por "VPN" (regla del driver).
+nic_name = "VPN"
+account_name = "AutoVPN"
+
+# Hub virtual de VPN Gate. NO cambiar: "VPN" provoca "hub inexistente".
+hub = "VPNGATE"
+
+# Puerto de reserva. El real de cada servidor se lee de su config OpenVPN.
+port = 443
+
+# Credenciales publicas de VPN Gate.
+username = "vpn"
+password = "vpn"
+
+# --- Tiempos -----------------------------------------------
+# Duracion de la cache de servidores (segundos).
+cache_ttl_secs = 900
+# Intervalo de comprobacion del modo `rotate` (segundos).
+health_interval_secs = 20
+# Espera maxima para que la sesion quede establecida (segundos).
+connect_timeout_secs = 45
+# Plazo de la sonda TCP previa, por destino (milisegundos).
+probe_timeout_ms = 700
+# Cuantos servidores sondear antes de conectar.
+probe_max = 40
+
+# --- Politica de seleccion ---------------------------------
+[policy]
+# Ping maximo aceptado (ms). 0 = sin limite.
+max_ping_ms = 500
+# Velocidad minima anunciada (Mbps).
+min_speed_mbps = 1.0
+# Paises permitidos (codigos ISO). Vacio = todos.
+#   countries = ["JP", "KR", "TH"]
+countries = []
+# Paises excluidos.
+exclude_countries = []
+# Maximo de sesiones anunciadas. 0 = sin limite.
+max_sessions = 0

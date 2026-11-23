@@ -1,0 +1,68 @@
+============================================================
+ FREEVPN 1.0  -  Cliente SoftEther / VPN Gate automatizado
+============================================================
+
+QUE ES
+------
+FREEVPN descubre servidores publicos gratuitos de VPN Gate, elige el mejor
+segun ping/velocidad, configura el cliente oficial SoftEther y establece la
+conexion automaticamente. No hace falta configurar nada a mano.
+
+CONTENIDO DE LA CARPETA
+-----------------------
+  FREEVPN.bat              Lanzador principal (pide permisos de admin)
+  Instalar-SoftEther.bat   Instala el cliente SoftEther (solo la 1a vez)
+  autovpn.exe              El programa
+  MANUAL.html              Manual completo (abrir en el navegador)
+  config.ejemplo.toml      Configuracion comentada
+  instaladores\            Instalador oficial de SoftEther
+  LEEME.txt                Este archivo
+
+PRIMER USO  (3 pasos)
+---------------------
+  1) Doble clic en  Instalar-SoftEther.bat
+     Instala el cliente, registra el servicio y crea el adaptador virtual.
+     (Acepta el aviso de administrador de Windows.)
+
+  2) Doble clic en  FREEVPN.bat
+     Se abre el menu.
+
+  3) Pulsa  3  (connect) y espera unos segundos.
+     Veras "CONECTADO a ..." y volveras al menu.
+     Comprueba con  4  (status): debe decir "estado: Connected".
+
+USO DIARIO
+----------
+  FREEVPN.bat  ->  3 (conectar)  ...  4 (ver estado)  ...  5 (desconectar)
+  Opcion 6 (clean) elimina cuenta y adaptador: despues hay que repetir el
+  paso 1.
+
+SI ALGO FALLA
+-------------
+  - Opcion 1 (doctor): muestra permisos, cliente, servicio, integridad
+      SHA-256 de los binarios y estado de la API.
+  - "Error Code 1 / Connection to the server failed":
+      ese servidor concreto esta caido; vuelve a pulsar 3 (sondea y elige
+      otro automaticamente).
+  - "Error 31" al crear el adaptador: reinstala con Instalar-SoftEther.bat.
+  - No aparece SoftEther en el menu Inicio: ejecuta Instalar-SoftEther.bat,
+      que lo registra en Windows.
+
+REQUISITOS
+----------
+  - Windows 10/11 de 64 bits, con permisos de administrador.
+  - Conexion a Internet (los servidores son de voluntarios: pueden ir y venir).
+  - Windows Defender puede pedir confirmacion: es tu propio programa.
+
+MAS INFORMACION
+---------------
+  MANUAL.html  (se abre en el navegador, modo oscuro)
+  Seccion 12: seguridad y auditoria (SEC-01 staging privado, SEC-02
+  integridad SHA-256, SEC-03 credenciales publicas de VPN Gate).
+
+AVISO
+-----
+  Los servidores son publicos y gratuitos, operados por terceros. No los uses
+  para datos sensibles. El trafico circula cifrado hasta el relay, pero el
+  operador del relay puede verlo. Uso educativo y de privacidad basica.
+============================================================

@@ -1,0 +1,5 @@
+# Binarios y datos que no van al repositorio
+instaladores/
+Tor-US/
+*.log
+config.toml
