@@ -1,5 +1,8 @@
 # FREEVPN
 
+[![Invitame un cafe en Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/clls54)
+[![Ko-fi](https://img.shields.io/badge/Ko--fi-Inv%C3%ADtame%20un%20caf%C3%A9-FF5E5B?logo=ko-fi&logoColor=white)](https://ko-fi.com/clls54)
+
 Cliente automático para [VPN Gate](https://www.vpngate.net/) usando el cliente oficial **SoftEther** en Windows.
 
 Descubre servidores públicos gratuitos, elige el mejor según ping y velocidad, y establece la conexión sin configurar nada a mano.
@@ -107,6 +110,18 @@ Empieza siempre por `autovpn.exe doctor` o la opción **1 (doctor)** del menú.
 ## Documentación
 
 Abre **`MANUAL.html`** en el navegador. Incluye el funcionamiento interno (descubrimiento, ranking, puerto real, sonda TCP, sesión SoftEther), la arquitectura del código y la sección de seguridad.
+
+
+## Apoyar el proyecto
+
+Si esta herramienta te resulta util, puedes invitarme un cafe. El dinero se
+destina a mantener las pruebas, el hardware de verificacion y las horas de
+desarrollo.
+
+[![Invitame un cafe en Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/clls54)
+
+[![Ko-fi](https://img.shields.io/badge/Ko--fi-Inv%C3%ADtame%20un%20caf%C3%A9-FF5E5B?logo=ko-fi&logoColor=white)](https://ko-fi.com/clls54)
+
 
 ## Licencia
 
